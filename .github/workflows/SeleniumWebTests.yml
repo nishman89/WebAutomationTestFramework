@@ -25,14 +25,16 @@ jobs:
       run: dotnet build --configuration Release
 
     - name: Run tests
-      run: dotnet test --configuration Release --no-build
+      run: dotnet test --configuration Release --no-build --logger "trx;LogFileName=test_results.xml" --logger "SpecRun"
       
     - name: Generate Living Documentation
       run: dotnet tool run specflow-livingdoc-generator
       working-directory: tests
       env:
         LIVINGDOC_OUTPUTFILE: ${{ github.workspace }}/tests/livingdoc.html
+        TEST_RESULTS_FILE: ${{ github.workspace }}/tests/test_results.xml
       continue-on-error: true
+      
     - name: Save Living Documentation Artifact
       uses: actions/upload-artifact@v2
       with:
