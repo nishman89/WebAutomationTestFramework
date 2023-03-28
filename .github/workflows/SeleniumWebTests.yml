@@ -23,7 +23,9 @@ jobs:
       run: dotnet build
 
     - name: Selenium SpecFlow WebTests
-      run: dotnet test || true
+      run: |
+        chromedriver --url-base=/wd/hub --port=4444 --whitelisted-ips=""
+        dotnet test || true
       continue-on-error: true
     
     - name: Generate Living Documentation
