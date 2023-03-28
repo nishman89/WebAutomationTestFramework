@@ -1,0 +1,19 @@
+name: Selenium SpecFlow WebTests
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+- name: Generate Living Documentation
+  run: dotnet tool run specflow-livingdoc-generator
+  working-directory: tests
+  env:
+    LIVINGDOC_OUTPUTFILE: ${{ github.workspace }}/tests/livingdoc.html
+  continue-on-error: true
+- name: Save Living Documentation Artifact
+  uses: actions/upload-artifact@v2
+  with:
+    name: Living Documentation
+    path: tests/livingdoc.html
