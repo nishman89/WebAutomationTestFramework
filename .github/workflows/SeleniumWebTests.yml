@@ -1,4 +1,4 @@
-name: Selenium SpecFlow WebTests
+name: Selenium SpecFlow WebTests with Living Docs
 
 on:
   push:
