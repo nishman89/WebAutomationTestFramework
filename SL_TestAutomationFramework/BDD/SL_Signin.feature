@@ -1,4 +1,5 @@
-﻿Feature: SL_Signin
+﻿@LivingDoc
+Feature: SL_Signin
 
 In order to be able to buy items
 As a registered user of the Sauce Labs website 
