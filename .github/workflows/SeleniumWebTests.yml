@@ -20,7 +20,7 @@ jobs:
       run: dotnet restore
 
     - name: Build
-      run: dotnet build --configuration Release
+      run: dotnet test --configuration Release --no-build
 
     - name: Selenium SpecFlow WebTests
       run: dotnet test -configuration Release
