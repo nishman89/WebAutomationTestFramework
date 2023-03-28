@@ -57,13 +57,13 @@ jobs:
       run: dotnet test --configuration Release --no-build
       
     - name: Generate Living Documentation
-  run: dotnet tool run specflow-livingdoc-generator
-  working-directory: tests
-  env:
+      run: dotnet tool run specflow-livingdoc-generator
+     working-directory: tests
+      env:
     LIVINGDOC_OUTPUTFILE: ${{ github.workspace }}/tests/livingdoc.html
-  continue-on-error: true
+      continue-on-error: true
     - name: Save Living Documentation Artifact
-  uses: actions/upload-artifact@v2
-  with:
-    name: Living Documentation
-    path: tests/livingdoc.html
+      uses: actions/upload-artifact@v2
+      with:
+        name: Living Documentation
+        path: tests/livingdoc.html
