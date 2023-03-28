@@ -1,4 +1,4 @@
-name: Selenium SpecFlow Web Tests
+name: Selenium SpecFlow WebTests
 
 on:
   push:
@@ -11,8 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+    - uses: actions/checkout@v2
 
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
@@ -27,14 +26,13 @@ jobs:
 
     - name: Run tests
       run: dotnet test --configuration Release --no-build
-
+      
     - name: Generate Living Documentation
       run: dotnet tool run specflow-livingdoc-generator
       working-directory: tests
       env:
         LIVINGDOC_OUTPUTFILE: ${{ github.workspace }}/tests/livingdoc.html
       continue-on-error: true
-
     - name: Save Living Documentation Artifact
       uses: actions/upload-artifact@v2
       with:
