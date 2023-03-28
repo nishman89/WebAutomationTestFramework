@@ -27,7 +27,7 @@ jobs:
       continue-on-error: true
       
     - name: Install Living Docs CLI
-      run: dotnet tool install --global SpecFlow.Plus.LivingDocCLI --version 3.9.57 --tool-path ~/livingdoc
+      run: dotnet tool install --global SpecFlow.Plus.LivingDocCLI --version 3.9.57
     
     - name: Generate Living Documentation
       run: ~/livingdoc/livingdoc feature-folder ./SL_TestAutomationFramework -t ./bin/debug/net6.0/TestExecution.json --output ./MyReport.html
