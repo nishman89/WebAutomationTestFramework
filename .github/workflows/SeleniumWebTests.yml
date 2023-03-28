@@ -27,8 +27,7 @@ jobs:
       continue-on-error: true
 
     - name: Install Living Docs CLI
-      run: dotnet tool install --global SpecFlow.Plus.LivingDocCLI --version 3.9.57
-      continue-on-error: true
+      run: dotnet restore --source "https://api.nuget.org/v3/index.json;https://www.myget.org/F/specflow/api/v3/index.json"      working-directory: tests
       
     - name: Generate Living Documentation
       run: livingdoc feature-folder .\SL_TestAutomationFramework -t.\bin\debug\net6.0\TestExecution.json --output .\MyReport.html
