@@ -1,4 +1,4 @@
-name: Selenium SpecFlow WebTests
+name: Selenium SpecFlow WebTests with Living Docs
 
 on:
   push:
@@ -13,10 +13,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Setup .NET Core
+    - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '3.1'
+        dotnet-version: '6.0.x'
 
     - name: Restore packages
       run: dotnet restore
@@ -25,45 +25,18 @@ jobs:
       run: dotnet build --configuration Release
 
     - name: Run tests
-      run: dotnet test --configuration Release --no-build
-
-      name: Selenium SpecFlow WebTests
-
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: '3.1'
-
-    - name: Restore packages
-      run: dotnet restore
-
-    - name: Build
-      run: dotnet build --configuration Release
-
-    - name: Run tests
-      run: dotnet test --configuration Release --no-build
+      run: dotnet test --configuration Release --no-build --logger "trx;LogFileName=test_results.xml" --logger "SpecRun"
       
     - name: Generate Living Documentation
-  run: dotnet tool run specflow-livingdoc-generator
-  working-directory: tests
-  env:
-    LIVINGDOC_OUTPUTFILE: ${{ github.workspace }}/tests/livingdoc.html
-  continue-on-error: true
+      run: dotnet tool run specflow-livingdoc-generator
+      working-directory: tests
+      env:
+        LIVINGDOC_OUTPUTFILE: ${{ github.workspace }}/tests/livingdoc.html
+        TEST_RESULTS_FILE: ${{ github.workspace }}/tests/test_results.xml
+      continue-on-error: true
+      
     - name: Save Living Documentation Artifact
-  uses: actions/upload-artifact@v2
-  with:
-    name: Living Documentation
-    path: tests/livingdoc.html
+      uses: actions/upload-artifact@v2
+      with:
+        name: Living Documentation
+        path: tests/livingdoc.html
