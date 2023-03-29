@@ -24,7 +24,7 @@ jobs:
 
     - name: Selenium SpecFlow WebTests
       run: |
-        chromedriver --url-base=/wd/hub --port=4444 --whitelisted-ips=""
+        #chromedriver --url-base=/wd/hub --port=4444 --whitelisted-ips=""
         dotnet test || true
       continue-on-error: true
     
