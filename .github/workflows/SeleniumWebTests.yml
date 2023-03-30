@@ -16,6 +16,12 @@ jobs:
       with:
         dotnet-version: '6.0.x'
 
+    - name: Setup Chrome
+      uses: actions/setup-chrome@v1
+      id: setup-chrome
+      with:
+        chrome-version: 'latest'
+
     - name: Restore packages
       run: dotnet restore
 
@@ -24,11 +30,12 @@ jobs:
 
     - name: Selenium SpecFlow Web Tests
       run: |
-        chromedriver --url-base=/wd/hub --port=45471 --whitelisted-ips="192.168.0.0/16" --allowed-ips="192.168.0.0/16" &
-        # chromedriver --url-base=/wd/hub --port=4444 --whitelisted-ips="0.0.0.0/0" &
+        chromedriver --url-base=/wd/hub --whitelisted-ips="0.0.0.0/0" &
         sleep 5
         dotnet test || true
       continue-on-error: true
+      outputs:
+        chrome-path: ${{ steps.setup-chrome.outputs.chrome-path }}
     
     - name: Generate Living Documentation
       run: ~/.dotnet/tools/livingdoc feature-folder ./SL_TestAutomationFramework -t ./bin/debug/net6.0/TestExecution.json --output ./MyReport.html
