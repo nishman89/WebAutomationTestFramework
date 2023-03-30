@@ -17,25 +17,23 @@ jobs:
         dotnet-version: '6.0.x'
 
     - name: Setup Chrome
-      uses: actions/setup-chrome@v1
-      id: setup-chrome
-      with:
-        chrome-version: 'latest'
-
-    - name: Restore packages
-      run: dotnet restore
-
-    - name: Build
-      run: dotnet build
+      run: |
+        curl -sSL https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -o chrome.deb
+        sudo apt-get update && sudo apt-get install ./chrome.deb -y
+        sudo apt-get install -yqq unzip
+        LATEST=$(curl -sSL https://chromedriver.storage.googleapis.com/LATEST_RELEASE)
+        curl -sSL https://chromedriver.storage.googleapis.com/$LATEST/chromedriver_linux64.zip -o chromedriver.zip
+        sudo unzip -qq chromedriver -d /usr/local/bin/
+        sudo chmod +x /usr/local/bin/chromedriver
+      env:
+        DEBIAN_FRONTEND: noninteractive
 
     - name: Selenium SpecFlow Web Tests
       run: |
-        chromedriver --url-base=/wd/hub --whitelisted-ips="0.0.0.0/0" &
+        /usr/local/bin/chromedriver --url-base=/wd/hub --whitelist-ip ="0.0.0.0/0" &
         sleep 5
         dotnet test || true
       continue-on-error: true
-      outputs:
-        chrome-path: ${{ steps.setup-chrome.outputs.chrome-path }}
     
     - name: Generate Living Documentation
       run: ~/.dotnet/tools/livingdoc feature-folder ./SL_TestAutomationFramework -t ./bin/debug/net6.0/TestExecution.json --output ./MyReport.html
