@@ -22,7 +22,7 @@ jobs:
     - name: Build
       run: dotnet build
 
-    - name: Selenium SpecFlow WebTests
+    - name: Selenium SpecFlow Web Tests
       run: |
         chromedriver --url-base=/wd/hub --port=45471 --whitelisted-ips="192.168.0.0/16" --allowed-ips="192.168.0.0/16" &
         # chromedriver --url-base=/wd/hub --port=4444 --whitelisted-ips="0.0.0.0/0" &
