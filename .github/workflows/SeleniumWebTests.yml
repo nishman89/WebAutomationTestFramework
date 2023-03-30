@@ -24,8 +24,8 @@ jobs:
 
     - name: Selenium SpecFlow WebTests
       run: |
-        chromedriver --url-base=/wd/hub --port=45471 --whitelisted-ips="192.168.0.0/16" --allowed-ips="0.0.0.0" &
-        sleep 5
+        # chromedriver --url-base=/wd/hub --port=45471 --whitelisted-ips="192.168.0.0/16" --allowed-ips="0.0.0.0" &
+        # sleep 5
         dotnet test || true
       continue-on-error: true
     
